@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+  
+    match /announcements/{document=**} {
+      allow read;
+      allow write: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+    
+    match /{document=**} {
+      allow read: if false;
+      allow write: if false;
+    }
+    
+    function isSignedIn() {
+    	return (request.auth != null && request.auth.token.email != "googleplay@demo.com");
+    }
+  }
+}
