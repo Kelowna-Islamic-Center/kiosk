@@ -1,61 +1,72 @@
-<h1 align="center">
-  Kelowna Islamic Center Web (Mosque Display) - V4 (SvelteKit w/Firebase)
-</h1>
-<p align="center">
-<a href="https://play.google.com/store/apps/details?id=com.kelownamasjid.android.app">Android App</a> -
-<a href="https://apps.apple.com/us/app/kelowna-islamic-center/id1479503537?ls=1">iOS App</a> -
-<a href="https://kelownaislamiccenter.web.app/">KIOSK Web App</a>
-<br><br>
-The Kelowna Islamic Center Kiosk Client and Firebase functions. The github repos for the mobile apps is seperate and can be requested if not provided.
-</p>
+# Kelowna Islamic Center Kiosk App
 
-<blockquote>
-This is the 4th major version of KIC-Web Kiosk and is built with SvelteKit and Firebase. Previous versions built with jQuery and PHP and can be found in the legacy project "KIC-Web".
-</blockquote>
+The KIC Kiosk App is a [SvelteKit](https://kit.svelte.dev/) web application deployed to masjid display kiosks. 
+It replaces the traditional manual prayer time clocks with a real-time digital display connected to the backend services shared with the mobile application.  
 
+The full documentation for this repository can be found on the [**Official Documentation Website**](https://kelowna-islamic-center.github.io/documentation/kiosk-app/).
 
-## API Structure
-The API has migrated to Firebase functions and BCMA API. All data is requested directly from either Firebase or BCMA's API.
+[![Read the Documentation](https://img.shields.io/badge/Read%20the%20Full%20Documentation-4CAF50?style=for-the-badge)](https://kelowna-islamic-center.github.io/documentation/kiosk-app/)
 
-All modifications require authentication. Authentication is done through Firebase authentication. 
+## Features
 
-## Database Structure
-The Kelowna Islamic Center platform now uses Cloud Firestore as its database. Access to the firebase console project can be requested from maintainer. <br><br>
+- 📺 Fullscreen prayer times kiosk display for prayer times and announcements  
+- 🔔 Real-time announcements carousel via Firestore
+- 🕌 Designed for large display screens inside the masjid
 
+## Prerequisites
 
-## Kiosk App Structure
-The Kiosk Web Application is written with SvelteKit. The browser support for the app currently is Chrome 60+ and most versions of Firefox. <br>
+- [Node.js](https://nodejs.org) (v18 or later)  
+- [Firebase CLI](https://firebase.google.com/docs/cli) 
 
-## Developing the Kiosk Web App
+## Getting Started
 
-Once you've cloned this project, the other steps are exactly the same as a regular SvelteKit project. You can start by installing dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Clone and install dependencies:
+
+```bash
+git https://github.com/Kelowna-Islamic-Center/kiosk
+cd kiosk
+npm install
+````
+
+Run in development mode:
 
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+## Environment Setup
 
-To create a production version of the Kiosk app:
+The app requires a `.env` file with the following variables:
+
+```env
+PUBLIC_API_LINK="https://<your-api-endpoint>"
+PUBLIC_FB_API_KEY="your-key"
+PUBLIC_FB_AUTH_DOMAIN="your-domain"
+PUBLIC_FB_PROJECT_ID="your-project-id"
+PUBLIC_FB_STORAGE_BUCKET="your-bucket"
+PUBLIC_FB_MESSAGING_SENDER_ID="your-sender-id"
+PUBLIC_FB_APP_ID="your-app-id"
+```
+
+## Deployment
+
+The kiosk app is deployed with **Firebase Hosting** using SSR:
 
 ```bash
 npm run build
+firebase deploy --only hosting
 ```
 
-You can preview the production build with `npm run preview`.
+## Display Setup
 
-There are no releases, all versions of the app are built and deployed directly from this master branch. Legacy releases are within the "KIC-Web" project.<br>
+For kiosk displays:
 
-## License & About
-If any part of the documentation is not clear, the maintainer of the repository at the time can be contacted. 
-The app is not licensed under any license. It is currently proprietary.
+* Use Google Chrome in kiosk mode (`--kiosk --app=<url>`)
+* Recommended: lightweight Linux distro or Raspberry Pi setup for minimal overhead
 
-Current Maintainer: Musab Hassan<br>
-<a href="https://musabhassan.com">Website</a> -
-<a href="mailto://musabhassan04@gmail.com">Email</a> -
-<a href="https://github.com/Musab-Hassan/">Github</a>
+See [Display Guide](https://kelowna-islamic-center.github.io/documentation/kiosk-app/display-guide/) for more details.
 
-Assalamulaikum.
+
+## License
+
+GPL-v3
