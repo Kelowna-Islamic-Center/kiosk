@@ -56,7 +56,7 @@
 	}
 
 	function scrollDescription(node: HTMLElement) {
-		if (node.offsetHeight > node.parentElement!.offsetHeight) {
+		if (node.offsetHeight > node.parentElement!.offsetHeight && node.parentElement!.offsetHeight > 0) {
 			node.style.transition = `transform ${duration - 6000}ms linear 3000ms`;
 			node.style.transform = `translate3d(0px, -${node.clientHeight - node.parentElement!.clientHeight}px, 0px)`;
 		}

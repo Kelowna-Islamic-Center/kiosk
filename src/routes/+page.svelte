@@ -6,7 +6,7 @@
 	import Announcements from "./Announcements.svelte";
     import { writable } from "svelte/store";
 
-	import DownloadAppImage from "$lib/assets/icon_stores.png";
+	import DownloadAppImage from "$lib/assets/promo-banners/icon_stores.png";
 
 	const screenSaverStore = writable(true);
     setContext("screenSaver", screenSaverStore);
@@ -76,7 +76,7 @@
 			align-items: stretch
 
 			img
-				width: 85%
+				width: 100%
 
 	&.saver
 		transform: scale(0.85)
