@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { FirebaseService } from "$lib/service";
 	import { onMount, setContext } from "svelte";
+    import { writable } from "svelte/store";
 
 	import Prayer from "./Prayer.svelte";
 	import Announcements from "./Announcements.svelte";
-    import { writable } from "svelte/store";
-
-	import DownloadAppImage from "$lib/assets/promo-banners/icon_stores.png";
+    import PromoBanners from "./PromoBanners.svelte";
 
 	const screenSaverStore = writable(true);
     setContext("screenSaver", screenSaverStore);
@@ -33,7 +32,9 @@
 		</div>
 		<div class="wrapper">
 			<Announcements />
-			<img src="{ DownloadAppImage }" alt="Download KIC App">
+			<div class="promo-banners">
+				<PromoBanners />
+			</div>
 		</div>
 	</div>
 </div>
@@ -75,7 +76,7 @@
 			justify-content: stretch
 			align-items: stretch
 
-			img
+			.promo-banners
 				width: 100%
 
 	&.saver
