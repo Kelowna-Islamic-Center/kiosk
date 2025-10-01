@@ -17,7 +17,7 @@
     let activeItem: string;
 	let activeIndex: number = 0;
     let outroAnimation: boolean;
-	const duration: number = 9000;
+	const duration: number = 10000;
 
 	$: activeItem = (activeIndex < images.length) ? images[activeIndex] : activeItem;
 
@@ -40,8 +40,8 @@
 <div class="overflow">
     {#key activeItem}
          <div class="wrapper"
-            in:fly={{ y: "-100%", duration: 1000, easing: quintOut }} 
-            out:fly={{ y: "100%", duration: 1000, easing: quintOut }}
+            in:fly={{ y: "-80%", duration: 1000, easing: quintOut }} 
+            out:fly={{ y: "80%", duration: 1000, easing: quintOut }}
             on:outrostart={() => outroAnimation = true}
 			class:out={ outroAnimation }>
 
@@ -78,7 +78,7 @@
 <style lang="sass">
 .overflow
     width: 100%
-    height: 200px
+    height: 170px
     overflow: hidden
     display: flex
     flex-direction: column
