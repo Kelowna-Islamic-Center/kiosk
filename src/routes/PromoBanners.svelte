@@ -78,7 +78,7 @@
 <style lang="sass">
 .overflow
     width: 100%
-    height: 170px
+    height: 17vh
     overflow: hidden
     display: flex
     flex-direction: column
