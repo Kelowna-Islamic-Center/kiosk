@@ -9,6 +9,7 @@ export type Prayer = {
 export type Announcement = {
     id: string,
     timeStamp?: {seconds: number, nanoseconds: number},
+    locale?: string,
     title?: string,
     description?: string
 }

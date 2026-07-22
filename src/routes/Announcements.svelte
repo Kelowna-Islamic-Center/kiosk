@@ -62,6 +62,26 @@
 		}
 	}
 
+	function isRtlLocale(locale?: string) {
+		return locale !== undefined && /^ar([_-]|$)/i.test(locale);
+	}
+
+	function getSupportedLocale(locale?: string) {
+		if (!locale) return undefined;
+
+		const normalizedLocale = locale.replace(/_/g, "-");
+		if (Intl.DateTimeFormat.supportedLocalesOf([normalizedLocale]).length > 0) {
+			return normalizedLocale;
+		}
+
+		const baseLocale = normalizedLocale.split("-")[0];
+		if (baseLocale && Intl.DateTimeFormat.supportedLocalesOf([baseLocale]).length > 0) {
+			return baseLocale;
+		}
+
+		return undefined;
+	}
+
 </script>
 
 
@@ -76,6 +96,7 @@
 		{#if activeItem}
 			{#key activeItem}
 				<div class="announcement" 
+					class:rtl={isRtlLocale(activeItem?.locale)}
 					in:fly={{ x: "-100%", duration: 1000, easing: quintOut }} 
 					out:fly={{ x: "100%", duration: 1000, easing: quintOut }}
 					on:outrostart={() => outroAnimation = true}
@@ -85,7 +106,8 @@
 					<div class="date-wrapper">
 						{#if activeItem.timeStamp !== undefined} 
 							{@const timeStamp = new Date(activeItem.timeStamp.seconds*1000)}
-							{@const dateString = timeStamp.toLocaleString('en-us', { year: 'numeric', month: 'long', day: 'numeric' })}
+							{@const locale = getSupportedLocale(activeItem.locale)}
+							{@const dateString = timeStamp.toLocaleString(locale, { year: 'numeric', month: 'long', day: 'numeric' })}
 							<div class="date">{ dateString }</div>
 						{/if}
 					</div>
@@ -178,6 +200,21 @@
 		flex-direction: column
 		align-items: flex-start
 
+		&.rtl
+			align-items: flex-end
+			text-align: right
+
+			.date-wrapper
+				flex-direction: row-reverse
+
+				&::before
+					margin-right: 0
+					margin-left: 1.7vh
+
+			.scroll-wrapper p
+				direction: rtl
+				text-align: right
+
 		&.out
 			position: absolute
 
@@ -187,11 +224,17 @@
 		.date-wrapper
 			display: inline-flex
 			flex-direction: row
+			align-items: center
 			justify-content: center
 			box-sizing: border-box
 			text-transform: uppercase
-			font-size: 2.3vh
+			font-size: 2.1vh
+			padding: 0.8vh 2vh
+			border: 0.2vh solid rgba(255,255,255,0.35)
+			border-radius: 999vh
+			background-color: rgba(255,255,255,0.05)
 			margin: 2vh 0
+			letter-spacing: 0.1vh
 
 			&::before
 				content: "today"

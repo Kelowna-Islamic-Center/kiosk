@@ -69,8 +69,43 @@ export class FirebaseService {
             const data: Announcement[] = [];
 
             snapshot.forEach((doc) => {
-                if (!(doc.data().hasOwnProperty("title") || doc.data().hasOwnProperty("description") || doc.data().hasOwnProperty("timeStamp"))) return;
-                data.push({ ...{ id: doc.id }, ...doc.data() });
+                const raw = doc.data() as {
+                    title?: string;
+                    description?: string;
+                    timeStamp?: { seconds: number; nanoseconds: number };
+                    l10n?: Record<string, { title?: string; description?: string }>;
+                };
+
+                const localized = raw.l10n;
+                const hasLocalized = typeof localized === "object" && localized !== null && Object.keys(localized).length > 0;
+
+                if (hasLocalized) {
+                    Object.entries(localized).forEach(([locale, content]) => {
+                        if (!content || typeof content !== "object") return;
+
+                        const title = content.title ?? raw.title;
+                        const description = content.description ?? raw.description;
+                        if (title === undefined && description === undefined && raw.timeStamp === undefined) return;
+
+                        data.push({
+                            id: `${doc.id}_${locale}`,
+                            locale,
+                            timeStamp: raw.timeStamp,
+                            title,
+                            description,
+                        });
+                    });
+
+                    return;
+                }
+
+                if (raw.title === undefined && raw.description === undefined && raw.timeStamp === undefined) return;
+                data.push({
+                    id: doc.id,
+                    timeStamp: raw.timeStamp,
+                    title: raw.title,
+                    description: raw.description,
+                });
             });
 
             announcementStore.set(data);
